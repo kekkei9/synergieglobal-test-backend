@@ -39,7 +39,8 @@ import * as Joi from 'joi';
       },
     }),
     UrlsModule,
-    UsersModule,
+    //TODO: Enable this later
+    // UsersModule,
   ],
 })
 export class AppModule {}

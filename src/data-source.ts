@@ -23,11 +23,10 @@ const options: DataSourceOptions & SeederOptions = {
   connectTimeoutMS: 0,
   seedTracking: true,
   factories: ['src/database/factories/**/*{.ts,.js}'],
-  entities: [User, Url],
-  migrations:
-    process.env.NODE_ENV === 'production'
-      ? ['dist/migrations/**/*.js']
-      : [join(__dirname, './migrations/**/*.ts')],
+  //TODO: Enable this later
+  // entities: [User, Url],
+  entities: [Url],
+  migrations: ['db/migrations/*{.ts,.js}'],
   seeds: [MainSeeder],
 };
 

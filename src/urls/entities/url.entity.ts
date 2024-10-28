@@ -1,7 +1,17 @@
-import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, PrimaryColumn } from 'typeorm';
+import { DefaultEntity } from '../../common/entities/default.entity';
 
 @Entity('urls')
-export class Url {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Url extends DefaultEntity {
+  @PrimaryColumn()
+  @JoinColumn({ name: 'short_url_id' })
+  shortUrlId: string;
+
+  @Column()
+  @JoinColumn({ name: 'original_url' })
+  originalUrl: string;
+
+  @Column()
+  @JoinColumn({ name: 'expired_at' })
+  expiredAt: Date;
 }
