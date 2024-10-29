@@ -1,16 +1,12 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { nanoid } from 'nanoid';
 import { Repository } from 'typeorm';
-import { validateUrl } from '../utils/url';
 import { CreateUrlDto, GenerateShortUrlDto } from './dto/create-url.dto';
 import { UpdateUrlDto } from './dto/update-url.dto';
 import { Url } from './entities/url.entity';
+import { addDate } from '../utils/date';
 
 @Injectable()
 export class UrlsService {
@@ -57,19 +53,17 @@ export class UrlsService {
   async generateShortUrl({ url }: GenerateShortUrlDto) {
     const clientUrl = this.configService.get('config.baseUrl');
 
-    // checking if the url is valid or not
-    if (!validateUrl(url)) {
-      throw new BadRequestException({
-        message: 'Invalid URL',
-      });
-    }
-
     // creating short url using nanoid
     const shortUrlId = await this.generateUniqueId();
+    const expiredAt = addDate(
+      new Date(),
+      this.configService.get('config.url.shortLinkExpiration') ?? '30d',
+    );
 
     await this.urlRepository.save({
       originalUrl: url,
       shortUrlId,
+      expiredAt,
     });
 
     const shortUrl = `${clientUrl}/${shortUrlId}`;
