@@ -34,11 +34,7 @@ import * as Joi from 'joi';
           password: configService.postgres.password,
           autoLoadEntities: true,
           keepConnectionAlive: true,
-          synchronize: false,
-          ssl: {
-            rejectUnauthorized: false,
-          },
-          connectTimeoutMS: 0,
+          synchronize: true,
         };
       },
     }),

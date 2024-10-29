@@ -66,7 +66,7 @@ export class UrlsService {
       expiredAt,
     });
 
-    const shortUrl = `${clientUrl}/${shortUrlId}`;
+    const shortUrl = `${clientUrl}/urls/${shortUrlId}`;
     return { shortUrl };
   }
 
