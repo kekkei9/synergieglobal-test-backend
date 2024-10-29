@@ -35,7 +35,10 @@ import * as Joi from 'joi';
           autoLoadEntities: true,
           keepConnectionAlive: true,
           synchronize: true,
-          ssl: true,
+          ssl: {
+            rejectUnauthorized: false,
+          },
+          connectTimeoutMS: 0,
         };
       },
     }),
