@@ -26,7 +26,7 @@ const options: DataSourceOptions & SeederOptions = {
   //TODO: Enable this later
   // entities: [User, Url],
   entities: [Url],
-  migrations: ['db/migrations/*{.ts,.js}'],
+  migrations: ['src/database/migrations/*{.ts,.js}'],
   seeds: [MainSeeder],
 };
 
