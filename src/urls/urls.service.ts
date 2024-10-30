@@ -51,7 +51,7 @@ export class UrlsService {
   }
 
   async generateShortUrl({ url }: GenerateShortUrlDto) {
-    const clientUrl = this.configService.get('config.baseUrl');
+    const clientUrl = this.configService.get('config.baseUrl.backend');
 
     // creating short url using nanoid
     const shortUrlId = await this.generateUniqueId();
@@ -72,9 +72,16 @@ export class UrlsService {
 
   async getOriginalUrl(shortUrlId: string) {
     const foundUrl = await this.urlRepository.findOneBy({ shortUrlId });
+
     // checking if short url is present
     if (foundUrl === null) {
       throw new NotFoundException({ message: 'No Url found' });
+    }
+
+    // Check if the URL has expired
+    const currentDateTime = new Date();
+    if (foundUrl.expiredAt && currentDateTime > foundUrl.expiredAt) {
+      throw new NotFoundException({ message: 'This URL has expired' });
     }
 
     // redirect to the original url

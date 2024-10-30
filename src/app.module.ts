@@ -35,10 +35,14 @@ import * as Joi from 'joi';
           autoLoadEntities: true,
           keepConnectionAlive: true,
           synchronize: true,
-          ssl: {
-            rejectUnauthorized: false,
-          },
-          connectTimeoutMS: 0,
+          ...(process.env.NODE_ENV === 'production'
+            ? {
+                ssl: {
+                  rejectUnauthorized: false,
+                },
+                connectTimeoutMS: 0,
+              }
+            : {}),
         };
       },
     }),

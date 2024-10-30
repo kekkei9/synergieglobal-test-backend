@@ -12,7 +12,10 @@ async function bootstrap() {
   const port = configService.get<number>('DATABASE_PORT');
 
   if (enableCors) {
-    app.enableCors();
+    app.enableCors({
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these methods
+      credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    });
   }
 
   app.useGlobalPipes(

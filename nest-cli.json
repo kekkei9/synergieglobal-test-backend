@@ -4,6 +4,5 @@
   "sourceRoot": "/",
   "compilerOptions": {
     "deleteOutDir": true
-  },
-  "entryFile": "./src/main.ts"
+  }
 }
