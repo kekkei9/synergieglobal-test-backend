@@ -11,6 +11,10 @@ export class Url extends DefaultEntity {
   @JoinColumn({ name: 'original_url' })
   originalUrl: string;
 
+  @Column({ nullable: true })
+  @JoinColumn({ name: 'password' })
+  password: string;
+
   @Column()
   @JoinColumn({ name: 'expired_at' })
   expiredAt: Date;

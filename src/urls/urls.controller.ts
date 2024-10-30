@@ -1,24 +1,11 @@
-import { join } from 'path';
-import {
-  Body,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-  Res,
-} from '@nestjs/common';
-import { GenerateShortUrlDto } from './dto/create-url.dto';
-import { UrlsService } from './urls.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
-import { ConfigService } from '@nestjs/config';
+import { GenerateShortUrlDto, GetOriginalUrlDto } from './dto/create-url.dto';
+import { UrlsService } from './urls.service';
 
 @Controller('urls')
 export class UrlsController {
-  constructor(
-    private readonly urlsService: UrlsService,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly urlsService: UrlsService) {}
   @Post()
   @ApiBody({
     type: GenerateShortUrlDto,
@@ -27,9 +14,18 @@ export class UrlsController {
     return this.urlsService.generateShortUrl(generateShortUrlDto);
   }
 
-  @Get('/:shortUrlId')
-  async getOriginalUrl(@Param('shortUrlId') shortUrlId: string) {
-    return await this.urlsService.getOriginalUrl(shortUrlId);
+  @ApiBody({
+    type: GetOriginalUrlDto,
+  })
+  @Post('/:shortUrlId')
+  async getOriginalUrl(
+    @Param('shortUrlId') shortUrlId: string,
+    @Body() getOriginalUrlDto: GetOriginalUrlDto,
+  ) {
+    return this.urlsService.getOriginalUrl(
+      shortUrlId,
+      getOriginalUrlDto.password,
+    );
   }
 
   @Get()
