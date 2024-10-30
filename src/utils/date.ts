@@ -29,5 +29,5 @@ export const addDate = (toBeAddedDate: Date, additionalDate: string) => {
       );
   }
 
-  return new Date(toBeAddedDate.getMilliseconds() + milliseconds);
+  return new Date(toBeAddedDate.getTime() + milliseconds);
 };
